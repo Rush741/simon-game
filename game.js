@@ -5,10 +5,12 @@ var buttonColours = ["red","blue","yellow","green"];
 
 var started = false;
 var level = 0;
+var highScore = 0;
 
 $(document).on("keypress", function() {
     if(!started) {
         $("#level-title").text("Level "+level);
+        $("#sub-title").text("(Follow the generated click pattern)");
         nextSequence();
         started = true;
     }
@@ -37,9 +39,13 @@ function checkAnswer(index) {
     }
 
     else {
+        if (level - 1 > highScore) {
+            highScore = level - 1;
+        }
         playSound("wrong");
         $("body").addClass("game-over");
         $("#level-title").text("Game Over, Press Any Key to Restart");
+        $("#sub-title").text(`HighScore: ${highScore}`);
         setTimeout(() => {
             $("body").removeClass("game-over");
         }, 200);
